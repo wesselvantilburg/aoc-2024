@@ -8,20 +8,25 @@ function findSolution(input: string): number {
   const left: number[] = [];
   const right: number[] = [];
 
-  for (let i = 0; i < inputLines.length; i++) {
-    const [a, b] = inputLines[i].split("   ");
-    left.push(Number(a));
-    right.push(Number(b));
-  }
+  inputLines.forEach((line) => {
+    const [l, r] = line.split("   ");
+    left.push(Number(l));
+    right.push(Number(r));
+  });
 
-  let sum = 0;
+  let result = 0;
 
-  for (let i = 0; i < left.length; i++) {
-    const occurance = right.filter((r) => r === left[i]).length;
-    sum += left[i] * occurance;
-  }
+  const occurences: Record<number, number> = {};
 
-  return sum;
+  right.forEach((locationID) => {
+    occurences[locationID] = (occurences[locationID] ?? 0) + 1;
+  });
+
+  left.forEach((locationID) => {
+    result += locationID * (occurences[locationID] ?? 0);
+  });
+
+  return result;
 }
 
 /* -------------------------------------------------------------------------- */
