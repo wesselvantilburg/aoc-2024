@@ -12,8 +12,16 @@ This is the first time I'm participating in the Advent of Code challenges. I'm e
 
 | Day | Part 1 | Part 2 |
 | --- | ------ | ------ |
-| 1   | ✅     | ✅     |
-| 2   |        |        |
+| 1   | 🟢     | 🟢     |
+| 2   | 🟢     | 🌕     |
+
+### Legend
+
+| Difficulty | Description |
+| ---------- | ----------- |
+| 🟢         | Easy        |
+| 🌕         | Medium      |
+| 🔴         | Hard        |
 
 ## Usage
 
