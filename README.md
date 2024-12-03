@@ -10,10 +10,11 @@ This is the first time I'm participating in the Advent of Code challenges. I'm e
 
 ## Progress
 
-| Day | Part 1 | Part 2 |
-| --- | ------ | ------ |
+| Day | Part 1 | Part 2 | Thoughts                                                                                                                                |
+| --- | ------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | 🟢     | 🟢     |
-| 2   | 🟢     | 🌕     |
+| 2   | 🟢     | 🌕     | Part two was not that difficult, but at first I was struggling with all the edge cases. So eventually I just brute-forced the answer :) |
+| 3   | 🟢     | 🟢     | Little RegEx refresher needed, but with RegEx it was easy                                                                               |
 
 ### Legend
 
