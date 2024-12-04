@@ -4,56 +4,60 @@ import { duration, fetchInputByDay } from "@utils";
 
 type Coordinate = { x: number; y: number };
 
-const directions: Record<string, Coordinate> = {
-  u: { x: 0, y: -1 },
-  ur: { x: 1, y: -1 },
-  r: { x: 1, y: 0 },
-  dr: { x: 1, y: 1 },
-  d: { x: 0, y: 1 },
-  dl: { x: -1, y: 1 },
-  l: { x: -1, y: 0 },
-  ul: { x: -1, y: -1 },
-};
+const directions = [
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+];
 
 /* -------------------------------------------------------------------------- */
 
-function getCellInDirection(
-  matrix: string[][],
-  coord: Coordinate,
-  direction: Coordinate
+let matrix: string[][] = [];
+
+/* -------------------------------------------------------------------------- */
+
+function jumpToCell(
+  from: Coordinate,
+  direction: Coordinate,
+  distance: number = 1
 ): string {
-  return matrix[coord.y + direction.y]?.[coord.x + direction.x] ?? "";
+  return (
+    matrix[from.y + direction.y * distance]?.[
+      from.x + direction.x * distance
+    ] ?? ""
+  );
 }
 
-function findMasFromCoord(matrix: string[][], startCoord: Coordinate): number {
-  return Object.entries(directions).reduce((count, [_, directionCoord]) => {
-    let mas = "";
-    mas += getCellInDirection(matrix, startCoord, directionCoord);
-    mas += getCellInDirection(matrix, startCoord, {
-      x: directionCoord.x * 2,
-      y: directionCoord.y * 2,
-    });
-    mas += getCellInDirection(matrix, startCoord, {
-      x: directionCoord.x * 3,
-      y: directionCoord.y * 3,
-    });
-    return (count += mas === "MAS" ? 1 : 0);
+function findMasFromCoord(coord: Coordinate): number {
+  return directions.reduce((count, direction) => {
+    const [x, y] = direction;
+
+    if (jumpToCell(coord, { x, y }) !== "M") return count;
+    if (jumpToCell(coord, { x, y }, 2) !== "A") return count;
+    if (jumpToCell(coord, { x, y }, 3) !== "S") return count;
+
+    return (count += 1);
   }, 0);
 }
 
 /* -------------------------------------------------------------------------- */
 
 function findSolution(input: string): number {
-  const inputMatrix = input.split("\n").map((line) => line.split(""));
+  matrix = input.split("\n").map((line) => line.split(""));
 
   let found = 0;
 
-  for (let y = 0; y < inputMatrix.length; y++) {
-    for (let x = 0; x < inputMatrix[y].length; x++) {
-      const char = inputMatrix[y][x];
+  for (let y = 0; y < matrix.length; y++) {
+    for (let x = 0; x < matrix[y].length; x++) {
+      const char = matrix[y][x];
       if (char === "X") {
         // We found a start point, check the surroundings for "MAS"
-        found += findMasFromCoord(inputMatrix, { x, y });
+        found += findMasFromCoord({ x, y });
       }
     }
   }

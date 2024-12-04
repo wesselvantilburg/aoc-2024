@@ -4,52 +4,46 @@ import { duration, fetchInputByDay } from "@utils";
 
 type Coordinate = { x: number; y: number };
 
-const directions: Record<string, Coordinate> = {
-  ur: { x: 1, y: -1 },
-  dr: { x: 1, y: 1 },
-  dl: { x: -1, y: 1 },
-  ul: { x: -1, y: -1 },
-};
+/* -------------------------------------------------------------------------- */
 
-const diagonalMS = ["MS", "SM"];
+let matrix: string[][] = [];
 
 /* -------------------------------------------------------------------------- */
 
-function getCellInDirection(
-  matrix: string[][],
-  coord: Coordinate,
-  direction: Coordinate
+function jumpToCell(
+  from: Coordinate,
+  direction: Coordinate,
+  distance: number = 1
 ): string {
-  return matrix[coord.y + direction.y]?.[coord.x + direction.x] ?? "";
+  return (
+    matrix[from.y + direction.y * distance]?.[
+      from.x + direction.x * distance
+    ] ?? ""
+  );
 }
 
-function findXMasFromCoord(matrix: string[][], startCoord: Coordinate): number {
-  let ulDiagonal =
-    getCellInDirection(matrix, startCoord, directions.ul) +
-    getCellInDirection(matrix, startCoord, directions.dr);
+function isXMas(coord: Coordinate): boolean {
+  const d1 =
+    jumpToCell(coord, { x: -1, y: -1 }) + jumpToCell(coord, { x: 1, y: 1 });
+  const d2 =
+    jumpToCell(coord, { x: 1, y: -1 }) + jumpToCell(coord, { x: -1, y: 1 });
 
-  let urDiagonal =
-    getCellInDirection(matrix, startCoord, directions.ur) +
-    getCellInDirection(matrix, startCoord, directions.dl);
-
-  return diagonalMS.includes(ulDiagonal) && diagonalMS.includes(urDiagonal)
-    ? 1
-    : 0;
+  return (d1 === "MS" || d1 === "SM") && (d2 === "MS" || d2 === "SM");
 }
 
 /* -------------------------------------------------------------------------- */
 
 function findSolution(input: string): number {
-  const inputMatrix = input.split("\n").map((line) => line.split(""));
+  matrix = input.split("\n").map((line) => line.split(""));
 
   let found = 0;
 
-  for (let y = 0; y < inputMatrix.length; y++) {
-    for (let x = 0; x < inputMatrix[y].length; x++) {
-      const char = inputMatrix[y][x];
+  for (let y = 0; y < matrix.length; y++) {
+    for (let x = 0; x < matrix[y].length; x++) {
+      const char = matrix[y][x];
       if (char === "A") {
-        // We found a start point, check for "MAS" in an X pattern
-        found += findXMasFromCoord(inputMatrix, { x, y });
+        // We found a start point, check the surroundings for "MAS"
+        found += isXMas({ x, y }) ? 1 : 0;
       }
     }
   }
