@@ -17,23 +17,15 @@ function isOnGrid(position: number[]): boolean {
   return true;
 }
 
-function canPlaceAntinode(pos: number[]): boolean {
-  if (!isOnGrid(pos)) return false;
-
-  // Antinode already exists at location
-  if (antinodes.has(pos.join(","))) return false;
-
-  return true;
-}
-
-function placeAntinodeIfPossible(position: number[]) {
-  if (canPlaceAntinode(position)) antinodes.add(position.join(","));
+function placeAntinode(position: number[]) {
+  if (!isOnGrid(position)) return;
+  antinodes.add(position.join(","));
 }
 
 function placeAntinodes(l1: number[], l2: number[]) {
   // Every antenna can now also be an antinode (if possible)
-  placeAntinodeIfPossible(l1);
-  placeAntinodeIfPossible(l2);
+  placeAntinode(l1);
+  placeAntinode(l2);
 
   const dx = l2[0] - l1[0];
   const dy = l2[1] - l1[1];
@@ -41,14 +33,14 @@ function placeAntinodes(l1: number[], l2: number[]) {
   // Possible antinodes in direction 1
   let nextPos = [l1[0] - dx, l1[1] - dy];
   while (isOnGrid(nextPos)) {
-    placeAntinodeIfPossible(nextPos);
+    placeAntinode(nextPos);
     nextPos = [nextPos[0] - dx, nextPos[1] - dy];
   }
 
   // Possible antinodes in direction 2
   nextPos = [l2[0] + dx, l2[1] + dy];
   while (isOnGrid(nextPos)) {
-    placeAntinodeIfPossible(nextPos);
+    placeAntinode(nextPos);
     nextPos = [nextPos[0] + dx, nextPos[1] + dy];
   }
 }
