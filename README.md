@@ -19,6 +19,7 @@ This is the first time I'm participating in the Advent of Code challenges. I'm e
 | [05](/src/days/05) | 🟢     | 🟢     |
 | [06](/src/days/06) | 🟢     | 🌕     |
 | [07](/src/days/07) | 🌕     | 🟢     |
+| [08](/src/days/08) | 🟢     | 🟢     |
 
 ### Legend
 
