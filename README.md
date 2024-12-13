@@ -23,6 +23,8 @@ This is the first time I'm participating in the Advent of Code challenges. I'm e
 | [09](/src/days/09) | 🟢     | 🟢     |
 | [10](/src/days/10) | 🟢     | 🟢     |
 | [11](/src/days/11) | 🟢     | 🌕     |
+| [12](/src/days/12) | 🟢     | 🌕     |
+| [13](/src/days/13) | 🟢     | 🟢     |
 
 ### Legend
 
